@@ -30,6 +30,7 @@ EOF
 sudo yum install docker-engine -y
 sudo mkdir /etc/systemd/system/docker.service.d
 
+sudo mkdir -p /etc/systemd/system/docker.service.d
 sudo tee /etc/systemd/system/docker.service.d/execstart_override.conf <<-EOF
 [Service]
 ExecStart=
