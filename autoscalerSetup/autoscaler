@@ -1,0 +1,34 @@
+kubectl create -f .
+
+
+kubectl get pods -n kube-system
+
+
+kubectl describe metrics-server-7577df488d-lz86f
+
+
+kubectl describe pods metrics-server-7577df488d-lz86f -n kube-system
+
+
+kubectl logs pod/metrics-server-7577df488d-lz86f -n kube-system
+
+
+kubectl run php-apache --image=k8s.gcr.io/hpa-example --requests=cpu=200m --expose --port=80
+
+
+kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+
+[root@k8 kubernetesYamls]# kubectl top nodes
+NAME           CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+k8.master.vm   185m         9%     1206Mi          69%
+
+[root@k8 kubernetesYamls]# kubectl get hpa
+NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+php-apache   Deployment/php-apache   0%/50%    1         10        1          37h
+
+
+kubectl run -i --tty load-generator --image=busybox /bin/sh
+
+increase the load
+
+$ while true; do wget -q -O- http://php-apache.default.svc.cluster.local; done

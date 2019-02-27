@@ -1,0 +1,5 @@
+###For VirtualBox VM .. make sure /etc/hosts contain ip address and node hostname. To find node IP address configured 
+###kubectl describe nodes | grep InternalIP 
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
+kubectl apply -f  https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/provider/baremetal/service-nodeport.yaml

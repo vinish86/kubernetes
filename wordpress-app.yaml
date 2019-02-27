@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-app
+  labels:
+    app: wordpress-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress-app
+  template:
+    metadata:
+      labels:
+        app: wordpress-app
+    spec:
+      containers:
+        - image: wordpress:4-php7.0
+          name: wordpress
+          # resources:
+          #   requests:
+          #     cpu: "400m"
+          env:
+          - name: WORDPRESS_DB_HOST
+            value: wordpress-db:3306
+          - name: WORDPRESS_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: wordpress-secrets
+                key: db-password
+          ports:
+            - containerPort: 80
+              name: http-port
+          volumeMounts:
+            - name: example-local-pv-1
+              mountPath: /var/www/html
+      volumes:
+        - name: example-local-pv-1
+          persistentVolumeClaim:
+            claimName: example-local-claim-1

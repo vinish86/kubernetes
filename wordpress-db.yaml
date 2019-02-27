@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-db
+  labels:
+    app: wordpress-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress-db
+  template:
+    metadata:
+      labels:
+        app: wordpress-db
+    spec:
+      containers:
+        - image: mysql:5.7
+          name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wordpress-secrets
+                  key: db-password
+          ports:
+            - containerPort: 3306
+              name: mysql-port
+          volumeMounts:
+            - name: example-local-pv-1
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: example-local-pv-1
+          persistentVolumeClaim:
+            claimName: example-local-claim-1

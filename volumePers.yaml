@@ -1,0 +1,13 @@
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: example-local-pv-1
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/kube"
+  storageClassName: local-storage
