@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: vote-ingress-blue-green
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: blue-green.example.com
+    http:
+      paths:
+      - backend:
+          serviceName: vote-bg
+          servicePort: 80

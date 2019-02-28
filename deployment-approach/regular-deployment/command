@@ -1,0 +1,12 @@
+#[root@k8 dev]# kubectl get svc -n ingress-nginx
+#NAME            TYPE       CLUSTER-IP   EXTERNAL-IP   PORT(S)                      AGE
+#ingress-nginx   NodePort   10.109.0.3   <none>        80:32329/TCP,443:32323/TCP   40m
+
+#[root@k8 dev]# telnet localhost 32329
+#Trying ::1...
+#Connected to localhost.
+#Escape character is '^]'.
+#^]
+#telnet> quit
+
+
