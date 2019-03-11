@@ -1,0 +1,7 @@
+kubectl config get-contexts
+
+kubectl config use-context vinish-prod
+
+kubectl get secrets/wordpress-secrets
+
+kubectl config use-context kubernetes-admin@kubernetes
