@@ -1,0 +1,9 @@
+kubectl apply -f namespace.yml
+kubectl apply -f clusterRole.yml
+kubectl apply -f config-map.yml
+kubectl apply -f prometheus-deployment.yml
+
+kubeclt get pods -n monitoring
+kubeclt get services -n monitoring
+kubectl apply -f grafana.yaml
+
