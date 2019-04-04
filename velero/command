@@ -1,0 +1,21 @@
+##Download velero packge 
+
+##Set the velero binary in /sbin/velero
+
+wget https://github.com/heptio/velero/releases/download/v0.11.0/velero-v0.11.0-linux-arm64.tar.gz
+tar -zxf velero-v0.11.0-linux-amd64.tar.gz
+cp -pr velero /sbin/velero
+
+sh setAccount.sh
+kubectl apply -f config/common/*
+
+
+##complete backup
+velero backup create nginx-backup
+
+
+velero backup logs ngin-backup
+velero backup get
+
+##Schedule
+velero schedule create nginx-daily --schedule="*/5 * * * *" --selector app=nginx

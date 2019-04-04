@@ -23,5 +23,5 @@ spec:
   objectStorage:
     bucket: velero
   config:
-    resourceGroup: scripttest
-    storageAccount: veleroef78625efd4a
+    resourceGroup: scripttsdasda
+    storageAccount: velerosadfkljds
