@@ -1,0 +1,46 @@
+pipeline {
+      environment {
+            registry = "vinish86/springboot"
+            registryCredential = 'dockerhub'
+        }
+    agent any
+
+    stages {
+        stage('CheckOut the code') {
+            steps {
+                echo 'Building..'
+                cleanWs()
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github_cred', url: 'git@github.com:vinish86/kubernetes.git']]])
+            }
+        }
+        stage('Maven Build') {
+            steps {
+                dir("java/springboot-jsp-helloworld"){
+                    sh 'mvn clean'
+   	                sh 'mvn package' 
+                    echo 'Testing..'
+                }
+                
+            }
+        }
+        stage('DockerBuild') {
+            steps {
+                echo 'Deploying....'
+                dir("java"){
+//                    dockerImage = docker.build registry + ":$BUILD_NUMBER", "-f $WORKSPACE/java/Dockerfile ."
+//                    docker.build registry + ":$BUILD_NUMBER", "-f Dockerfile ."
+                    sh 'docker build -t "$registry:$BUILD_NUMBER" -f Dockerfile .'
+                }
+            }
+        }
+        stage('DockerPush') {
+            steps {
+                echo 'DockerPush image....'
+                withDockerRegistry(credentialsId: 'dockerhub', url: '') {
+                    // some block
+                    sh 'docker push "$registry:$BUILD_NUMBER"'
+                }
+            }
+        }
+    }
+}
